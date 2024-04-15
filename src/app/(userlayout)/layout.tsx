@@ -10,6 +10,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import { UserStoreProvider } from "@/providers/userProvider";
+import ToasterProvider from "@/providers/ToastProvider";
 
 const inter = Cantora_One({ weight: "400", subsets: ["latin"] });
 
@@ -30,11 +32,15 @@ export default function UserLayout({
     <html lang="en">
       <body className={inter.className}>
         {/* <QueryClientProvider client={queryClient}> */}
-          <div className="bg-gradient-to-br from-zinc-100 to-[#cbe7f8]">
+       {/*  <UserStoreProvider> */}
+
+          <div className="overflow-x-hidden">
             <Navbar />
             {children}
             <Toaster />
+            <ToasterProvider />
           </div>
+       {/*  </UserStoreProvider> */}
      {/*    </QueryClientProvider> */}
       </body>
     </html>

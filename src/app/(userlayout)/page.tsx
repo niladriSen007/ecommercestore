@@ -8,6 +8,8 @@ import Collections from "@/components/collections/Collections";
 import Products from "@/components/products/Products";
 
 const page = () => {
+
+
   return (
     <div className="flex flex-col w-screen overflow-x-hidden scrollbar-hide" style={{overflowX:"hidden"}}>
       {/* /Hero section */}
@@ -28,14 +30,14 @@ const page = () => {
               </section>
               <section className="flex items-center gap-2 ">
                 <aside className="flex items-center space-x-0.5">
-                  <StarIcon size={20} fill="#afc4d1" className="" />
-                  <Star size={20} fill="#afc4d1" className="" />
-                  <Star size={20} fill="#afc4d1" className="" />
-                  <Star size={20} fill="#afc4d1" className="" />
-                  <Star size={20} fill="white" className="" />
+                  <Star size={20} fill="#afc4d1" color="#808080" />
+                  <Star size={20} fill="#afc4d1" color="#808080"  />
+                  <Star size={20} fill="#afc4d1" color="#808080"  />
+                  <Star size={20} fill="#afc4d1" color="#808080"  />
+                  <Star size={20} fill="white" color="#808080"  />
                 </aside>
                 <aside className="flex gap-2 items-center text-base font-semibold text-zinc-400">
-                  <p>4.0</p>
+                  <p>4.2</p>
                   <p>|</p>
                   <p className="tracking-wider">1289 Reviews</p>
                 </aside>
@@ -98,7 +100,7 @@ const page = () => {
       {/* Collections */}
          <Collections /> 
 
-         <Products />
+         <Products  />
     </div>
   );
 };

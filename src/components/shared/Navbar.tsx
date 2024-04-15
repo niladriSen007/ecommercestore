@@ -1,11 +1,15 @@
 "use client";
-import { Contact2, Home, Info, ShoppingBasket, ShoppingCart, Store } from "lucide-react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useCartStore } from "@/store/useCart";
+import { motion } from "framer-motion";
+import { Contact2, Home, ShoppingBasket, ShoppingCart, Store } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 const Navbar = () => {
+
+  const { cartItems } = useCartStore();
+
   return (
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
@@ -42,15 +46,16 @@ const Navbar = () => {
           </Link>
         </div>
       </div>
-      <div className="flex gap-10 items-center px-8">
+      <div className="flex gap-10 items-center px-8 relative">
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>Nil</AvatarFallback>
         </Avatar>
 
-        <Link href="/cart" className="flex justify-center items-start gap-2 text-lg">
+        <Link href="/cart" className="flex  justify-center items-start gap-2 text-lg">
             <ShoppingCart />
-            Cart
+            Cart({cartItems.length})
+          
           </Link>
       </div>
     </motion.nav>
