@@ -2,6 +2,7 @@ import { getCollections } from "@/lib/actions/action";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { MoveLeft, MoveRight } from "lucide-react";
+import Link from "next/link";
 
 const Collections = async () => {
   const collections = await getCollections();
@@ -28,9 +29,9 @@ const Collections = async () => {
                   width={2400}
                   height={2400}
                 />
-                <Button className="text-3xl px-6 text-blue-400 rounded-full hover:bg-blue-400 hover:text-white transition-all duration-500 absolute bottom-4 bg-white">
+                <Link href={`/collections/${collection?._id}`}   className="text-3xl px-6 text-blue-400 rounded-full hover:bg-blue-400 hover:text-white transition-all duration-500 absolute bottom-4 bg-white">
                   {collection.title}
-                </Button>
+                </Link>
               </div>
             ))
           )}

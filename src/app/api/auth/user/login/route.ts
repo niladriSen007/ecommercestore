@@ -42,7 +42,7 @@ export const POST = async (req: NextRequest) => {
     );
 
     const response = NextResponse.json(
-      { token, success: true ,status: 200 }
+      { user:existingUser,token, success: true ,status: 200 }
     );
 
     response.cookies.set("token", token, {

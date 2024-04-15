@@ -19,6 +19,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
+import { useUserProfileStore } from "@/store/store";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -26,46 +27,47 @@ const formSchema = z.object({
 });
 
 const LoginForm = () => {
-  const [loading,setLoading] = useState(false);
 
-  const { toast } = useToast()
+  const addUserProfile = useUserProfileStore((state) => state.setSignedInUser);
+
+  const [loading, setLoading] = useState(false);
+
+  const { toast } = useToast();
   const router = useRouter();
-
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      password:""
+      password: "",
     },
   });
 
 
-
-  const onSubmit = async(values: z.infer<typeof formSchema>) => {
-    setLoading(true)
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setLoading(true);
     try {
-     const {data} = await axios.post("/api/auth/user/login", values);
- 
-     if(data?.success){
-       setLoading(false)
-       router.push("/");
-       toast({
-         variant: "default",
-         title: "Login successful",
-         description: "You have successfully logged in to Sneakkerz",
-       })
-     }
- 
-    } catch (error : any) {
-     setLoading(false)
-     toast({
-       variant: "destructive",
-       title: "Login failed",
-       description: error.response.data.error,
-     })
-  }
-  }
+      const { data } = await axios.post("/api/auth/user/login", values);
+
+      if (data?.success) {
+        setLoading(false);
+        addUserProfile(data?.user);
+        router.push("/");
+        toast({
+          variant: "default",
+          title: "Login successful",
+          description: "You have successfully logged in to Sneakkerz",
+        });
+      }
+    } catch (error: any) {
+      setLoading(false);
+      toast({
+        variant: "destructive",
+        title: "Login failed",
+        description: error.response.data.error,
+      });
+    }
+  };
 
   const handleKeyPress = (
     e:
@@ -79,52 +81,64 @@ const LoginForm = () => {
 
   return (
     <div className="shadow-xl">
-      <Form {...form} >
+      <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="border border-zinc-500 px-8 py-12 rounded-2xl"
         >
           <div className="text-center flex flex-col gap-5 mb-5 ">
             <p className="text-black font-bold text-2xl">Login to Sneakkerz</p>
-            <p className="text-gray-500">Enter your email below to login to your account</p>
+            <p className="text-gray-500">
+              Enter your email below to login to your account
+            </p>
           </div>
           <div className="flex flex-col gap-3 my-6">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email address</FormLabel>
-                <FormControl>
-                  <Input  placeholder="projectmayhem@fc.com" {...field} onKeyDown={handleKeyPress} />
-                </FormControl>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email address</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="projectmayhem@fc.com"
+                      {...field}
+                      onKeyDown={handleKeyPress}
+                    />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input placeholder="••••••••" {...field} onKeyDown={handleKeyPress} />
-                </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="••••••••"
+                      {...field}
+                      onKeyDown={handleKeyPress}
+                    />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
-          <Button type="submit" className="w-full">{ loading ? "Loading..." :"Login" }</Button>
+          <Button type="submit" className="w-full">
+            {loading ? "Loading..." : "Login"}
+          </Button>
           <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{" "}
-          <Link href="/signup" className="underline">
-            Sign up
-          </Link>
-        </div>
+            Don&apos;t have an account?{" "}
+            <Link href="/signup" className="underline">
+              Sign up
+            </Link>
+          </div>
         </form>
       </Form>
     </div>

@@ -22,23 +22,28 @@ type CollectionType = {
     updatedAt: Date;
   }
   
-  type OrderColumnType = {
+  type UserType = {
     _id: string;
-    customer: string;
-    products: number;
-    totalAmount: number;
+    username : string;
+    email: string;
+    wishlist: string[];
     createdAt: string;
+    updatedAt: string;
+  };
+  
+  type OrderType = {
+    shippingAddress: Object;
+    _id: string;
+    customerClerkId: string;
+    products: [OrderItemType]
+    shippingRate: string;
+    totalAmount: number
   }
   
   type OrderItemType = {
-    product: ProductType
+    product: ProductType;
     color: string;
     size: string;
     quantity: number;
-  }
-  
-  type CustomerType = {
-    clerkId: string;
-    name: string;
-    email: string;
+    _id: string;
   }
