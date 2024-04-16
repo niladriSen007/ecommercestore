@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUserProfileStore } from "@/store/store";
 import WishlistOrBuy from "./WishlistOrBuy";
+import { useCartStore } from "@/store/useCart";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
   const [index, setIndex] = useState(0);
@@ -14,6 +15,12 @@ const ProductCard = ({ product }: { product: ProductType }) => {
 
   const { signedInUser  } = useUserProfileStore((state) => ({
     signedInUser: state.signedInUser,
+  }));
+
+  const { addItemToCart, cartItems } = useCartStore((state) => ({
+    cartItems: state.cartItems,
+    addItemToCart: state.addItemToCart,
+    removeItemFromCart: state.removeItemFromCart,
   }));
 
   /* console.log(signedInUser,"User data") */
@@ -58,10 +65,32 @@ const ProductCard = ({ product }: { product: ProductType }) => {
         {Math.round(parseInt(product?.price.toString()) / 1000)}% off)
       </p>
       <div className="flex items-center gap-4">
-        <Button className=" bg-[#81b0ce] flex items-center gap-2 hover:bg-[#4598cc] transition-all duration-300 text-white py-2 text-base shadow-2xl px-4 rounded-full  ">
-          <ShoppingBag />
-          Add to Cart
-        </Button>
+      {cartItems?.some((item) => item?.item?._id === product?._id) ? (
+          <>
+            <Button onClick={()=>router.push("/cart")} className=" bg-orange-500 flex items-center gap-2 hover:bg-orange-600 transition-all duration-300 text-white py-2 text-base shadow-2xl px-4 rounded-full  ">
+              
+              <ShoppingBag />
+              Go to Cart
+            </Button>
+          </>
+        ) : (
+          <Button
+            onClick={() => {
+              addItemToCart({
+             
+                item: product,
+                quantity : 1,
+                color: product?.colors[0],
+                size: product?.sizes[0],
+              });
+            }}
+            className=" bg-[#81b0ce] flex items-center gap-2 hover:bg-[#4598cc] transition-all duration-300 text-white py-2 text-base shadow-2xl px-4 rounded-full  "
+          >
+            {}
+            <ShoppingBag />
+            Add to Cart
+          </Button>
+        )}
        { signedInUser && <WishlistOrBuy {...{ isWishListed, setIsWishListed,signedInUser,product }} />}
       </div>
     </div>

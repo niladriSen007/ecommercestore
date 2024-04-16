@@ -34,7 +34,7 @@ const cartStore = (set: any, get: any) => ({
     }
 
     set({ cartItems: [...currentItems, { item, quantity, color, size }] });
-    toast.success("Item added to cart", { icon: "🛒" });
+    toast.success("Item added to cart 🛒");
   },
   removeItemFromCart: (idToRemove: string) => {
     const remainingCartItems = get().cartItems.filter(
