@@ -4,7 +4,6 @@ import { create } from "zustand";
 import { persist, createJSONStorage, devtools } from "zustand/middleware";
 
 interface CartItem {
-
   item: ProductType;
   quantity: number;
   color?: string; // ? means optional
@@ -25,8 +24,8 @@ const cartStore = (set: any, get: any) => ({
   addItemToCart: (data: CartItem) => {
     const { item, quantity, color, size } = data;
     const currentItems = get().cartItems; // all the items already in cart
-    const isExisting = currentItems.find(
-      (cartItem: CartItem) => cartItem.item._id === item._id
+    const isExisting = currentItems?.find(
+      (cartItem: CartItem) => cartItem?.item?._id === item._id
     );
 
     if (isExisting) {
@@ -38,7 +37,7 @@ const cartStore = (set: any, get: any) => ({
   },
   removeItemFromCart: (idToRemove: string) => {
     const remainingCartItems = get().cartItems.filter(
-      (cartItem: CartItem) => cartItem.item._id !== idToRemove
+      (cartItem: CartItem) => cartItem?.item?._id !== idToRemove
     );
 
     set({ cartItems: remainingCartItems });
@@ -54,17 +53,28 @@ const cartStore = (set: any, get: any) => ({
     toast.success("Item quantity increased");
   },
   decreaseQuantity: (idToDecrease: string) => {
-    const newCartItems = get().cartItems.map((cartItem: CartItem) =>
-      cartItem.item._id === idToDecrease
-        ? cartItem?.quantity == 1
-          ? get().cartItems.filter(
-              (cartItem: CartItem) => cartItem?.item?._id !== idToDecrease
-            )
-          : cartItem.quantity - 1
-        : cartItem
-    );
-    set({ cartItems: newCartItems });
-    toast.success("Item quantity decreased");
+    /* console.log(get().cartItems, "Hii", idToDecrease); */
+
+    const isSingleProduct = get().cartItems.some((cartItem: CartItem) => cartItem?.quantity == 1 && cartItem?.item?._id == idToDecrease);
+    if (isSingleProduct) {
+      const remainingCartItems = get().cartItems.filter(
+        (cartItem: CartItem) => cartItem?.item?._id !== idToDecrease
+      );
+      set({ cartItems: remainingCartItems });
+      toast.success("Item removed from cart", { icon: "🗑️" });
+      return;
+    }else{
+      const newCartItems = get().cartItems.map((cartItem: CartItem) =>
+        cartItem?.item?._id == idToDecrease
+        ?{ ...cartItem, quantity :  cartItem.quantity - 1}
+          : cartItem
+      );
+
+      console.log(newCartItems, "newCartItems");
+
+      set({ cartItems: newCartItems });
+      toast.success("Item quantity decreased");
+    }
   },
   clearCart: () => set({ cartItems: [] }),
 });
