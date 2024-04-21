@@ -38,3 +38,17 @@ export const getRelatedProducts = async (productId: string) => {
     return data;
     }
 
+export const getSearchResults = async (searchQuery: string) => {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/search/${searchQuery}`);
+    const data = res.data.results;
+  
+    return data;
+    }
+
+export const getUserOrders = async (customerId: string) => {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/orders/customers/${customerId}`);
+    const data = res.data.orders;
+  
+    return data;
+    }
+

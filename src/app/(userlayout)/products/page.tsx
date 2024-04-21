@@ -12,7 +12,7 @@ const page = async() => {
   return (
     <>
       <section className="py-48 mx-40 ">
-        <p className="text-6xl text-center text-black mb-12">Our Products</p>
+        <p className="text-6xl text-center text-black mb-12 underline">Our Products</p>
         <section className="grid grid-cols-4 gap-24 place-items-center">
           {products?.length == 0 ? (
             <p>No products available</p>
