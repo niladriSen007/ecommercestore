@@ -37,7 +37,7 @@ const WishlistOrBuy = ({
     try {
 
       console.log(signedInUser?._id,"User")
-      const { data } = await axios.get(`/api/user/profile/${signedInUser?._id?.toString()}`);
+      const { data } = await axios.get(`/api/user/profile/${signedInUser?._id}`);
       setUserDetails(data?.user);
       setIsWishListed(data?.user?.wishlist?.includes(product?._id));
       setLoading(false);
