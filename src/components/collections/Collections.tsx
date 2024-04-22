@@ -41,3 +41,6 @@ const Collections = async () => {
   );
 };
 export default Collections;
+
+
+export const dynamic = "force-dynamic";

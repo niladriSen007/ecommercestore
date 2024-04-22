@@ -1,7 +1,4 @@
 import { getProducts } from "@/lib/actions/action";
-import { Button } from "../ui/button";
-import Image from "next/image";
-import { LeafyGreen, ShoppingBag } from "lucide-react";
 import ProductCard from "./ProductCard";
 
 const Products = async() => {
@@ -26,3 +23,5 @@ const Products = async() => {
   )
 }
 export default Products
+
+export const dynamic = "force-dynamic";
