@@ -57,3 +57,6 @@ const SearchComponent = ({ serarchQuery,setSearchQuery ,setShowSearch}: { serarc
   );
 };
 export default SearchComponent;
+
+
+export const dynamic = "force-dynamic";

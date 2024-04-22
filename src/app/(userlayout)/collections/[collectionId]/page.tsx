@@ -37,3 +37,5 @@ const Collection = async ({ params }: { params: { collectionId: string } }) => {
   );
 };
 export default Collection;
+
+export const dynamic = "force-dynamic";
